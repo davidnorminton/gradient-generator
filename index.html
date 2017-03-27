@@ -1,98 +1,54 @@
 <!doctype html>
 <html>
-    <head>
-        <title>CSS Linear gradient generator</title>
-        <meta description="author" content="David Norminton">
-    </head>
-    <body>
-        <main>
-<style>
-#gradient_div {
-    width: 34%;
-    height: 300px;
-    margin: 5%;
-    border: 2px solid #333;
-    border-radius: 7px;
-    background: linear-gradient(#f70202, #fab707);
-    float: left;
-    padding: 2%;
-}
-#output_css {
-    width: 36%;
-    height: 300px;
-    margin: 5%;
-    border: 2px solid #c3c0c0;
-    background: #e0e0e0;
-    border-radius: 7px;
-    color: black;
-    padding: 2%;
-    float: left;
-}
-</style>
-    <!-- div with gradient effect -->
-    <div id="gradient_div"></div>
-    <div id="output_css">
-        background: -webkit-linear-gradient(0deg, #f70202, #fab707);<br />
-        background:    -moz-linear-gradient(0deg, #f70202, #fab707);<br />
-        background:         linear-gradient(0deg, #f70202, #fab707);<br />                       
-    </div>
+<head>
+    <title>CSS Linear gradient generator</title>
+    <meta description="author" content="David Norminton">
+    <link rel="stylesheet" href="style.css">
+    <script src="script.js"></script>
+</head>
+<body>
+    <main>
+        <section class="left">
+                <!-- div with gradient effect -->
+        <div class="container">
+            <div id="gradient_div"></div>
+        </div>
+            <div class="container"> 
+                <div class="label">CONFIGURE GRADIENT</div>            
+                <!-- our two color pickers -->
+                <div class="picker">
+                    <span class="pick">First Color</span>
+                    <span id="color1">#f70202</span>
+                    <input type="color" value="#f70202" onchange="firstColorChanged(this.value)">
+                </div>
+                <div class="picker">    
+                    <span class="pick">Second Color</span>
+                    <span id="color2">#fab707</span>
+                    <input type="color" value="#fab707" onchange="secondColorChanged(this.value)">
+                </div>
+                <div class="gradient_angle">
+                    <span class="pick">Angle</span>
+                         <input type="range" value="0" min="-180" max="180" 
+                                step="1" onchange="changeAngle(this.value)">
+            </div>    
+        </section>    
+        <section class="right">
 
-    <!-- our two color pickers -->
-    <input type="color" value="#f70202" onchange="firstColorChanged(this.value)">
-    <input type="color" value="#fab707" onchange="secondColorChanged(this.value)">
-    <input type="range" value="0" min="-180" max="180" step="1" onchange="changeAngle(this.value)">
-
-<script>
-// global var to store bottom color
-// this is updated by the function firstColorChanged
-var bottom_color = '#f70202',
-// global var to store top color
-// this is updated by the function secondColorChanged
-    top_color = '#fab707',
-// global var to store the angle of gradient
-// this is updated by the changeAngle function    
-    angle=0;
-    
-/**
- * function - changeState
- * changes the style attribut on the div with an id of gradient_div
- * then changes the text inside the div with an id of output_css
- **/    
-function changeState() {
-    // build the output string with the color picked and chosen angle
-    var output = 'linear-gradient(' + angle + 'deg , '+ bottom_color + ',' + top_color + ' )';
-    // get the gradient on div with id of gradient-div
-    document.getElementById('gradient_div').style.background=output;
-    // this will be outputted to the div with id of output_css
-    var outputText =
-'background : linear-gradient(' + angle + ', ' + bottom_color + ',' + top_color + ' ); <br />' +
-'background : -webkit-linear-gradient(' + angle + ', ' + bottom_color + ',' + top_color + ' );<br />' +
-'background : -moz-linear-gradient(' + angle + ', '+ bottom_color + ',' + top_color + ' );' ;
-    // now change the text
-    document.getElementById('output_css').innerHTML=outputText;
-}    
-
-/**
- * changeAngle
- * @param int - value of angle selected
- */
-function changeAngle( value ) {
-    // the global angle variable is equal to this value passed to function
-    angle = value;
-    // modify DOM
-    changeState();
-}
-function firstColorChanged( value ) { 
-    // change global var
-    bottom_color = value;
-    // modify DOM
-    changeState();
-}
-function secondColorChanged( value ) { 
-    // change global var
-    top_color = value;
-    // modify DOM
-    changeState();
-}
-</script> 
-</div>
+        <div class="container">  
+            <div id="output_css">
+                /* webkit chrome */<br />
+                background: -webkit-linear-gradient(0deg, #f70202, #fab707);<br /><br />
+                /* moz firefox */<br />
+                background:    -moz-linear-gradient(0deg, #f70202, #fab707);<br /><br />
+                /* MS IE 10 + */<br />
+                background:     -ms-linear-gradient(0deg, #f70202, #fab707);<br /><br />   
+                /* O opera */<br />
+                background:       -o-linear-gradient(0deg, #f70202, #fab707);<br /><br />                             
+                /* W3 Markup*/<br />
+                background:          linear-gradient(0deg, #f70202, #fab707);<br /><br />                       
+            </div>
+        </div>
+        </section>
+    </main>
+</body> 
+</html>   
