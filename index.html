@@ -8,6 +8,13 @@
 </head>
 <body>
     <main>
+<button class="back" type="button" onclick="goBack()">BACK TO ARTICLE</button>
+
+<script>
+function goBack() {
+    window.history.back();
+}
+</script>    
         <section class="left">
                 <!-- div with gradient effect -->
         <div class="container">
@@ -16,6 +23,11 @@
             <div class="container"> 
                 <div class="label">CONFIGURE GRADIENT</div>            
                 <!-- our two color pickers -->
+                    <h3>Select gradient type</h3>
+                    <label>Linear </label>
+                    <input type="radio" name="gradient" onclick="props.setType(this.value)" value="linear" checked>
+                    <label>Radial</label>
+                    <input type="radio" name="gradient" onclick="props.setType(this.value)" value="radial">
                 <div class="picker">
                     <span class="pick">First Color</span>
                     <span id="color1">#f70202</span>
@@ -26,10 +38,10 @@
                     <span id="color2">#fab707</span>
                     <input type="color" value="#fab707" onchange="secondColorChanged(this.value)">
                 </div>
-                <div class="gradient_angle">
+                <div id="angle" class="gradient_angle">
                     <span class="pick">Angle</span>
-                         <input type="range" value="0" min="-180" max="180" 
-                                step="1" onchange="changeAngle(this.value)">
+                    <input type="range" value="0" min="-180" max="180" 
+                           step="1" onchange="changeAngle(this.value)">
             </div>    
         </section>    
         <section class="right">

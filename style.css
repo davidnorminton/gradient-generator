@@ -6,19 +6,31 @@ html, body {
 }
 html {
 /* IE10+ */ 
-background-image: -ms-radial-gradient(ellipse farthest-corner at center, rgba(249, 247, 247, 0.53) 0%, rgba(32, 52, 107, 0.9) 100%);
-
+    background-image: -ms-radial-gradient(ellipse farthest-corner at center, 
+                      rgba(249, 247, 247, 0.53) 0%, rgba(32, 52, 107, 0.9) 100%);
 /* Mozilla Firefox */ 
-background-image: -moz-radial-gradient(ellipse farthest-corner at center, rgba(249, 247, 247, 0.53) 0%, rgba(32, 52, 107, 0.9) 100%);
-
+    background-image: -moz-radial-gradient(ellipse farthest-corner at center,
+                   rgba(249, 247, 247, 0.53) 0%, rgba(32, 52, 107, 0.9) 100%);
 /* Opera */ 
-background-image: -o-radial-gradient(ellipse farthest-corner at center, rgba(249, 247, 247, 0.53) 0%, rgba(32, 52, 107, 0.9) 100%);
-
+    background-image: -o-radial-gradient(ellipse farthest-corner at center,
+                      rgba(249, 247, 247, 0.53) 0%, rgba(32, 52, 107, 0.9) 100%);
 /* Webkit (Chrome 11+) */ 
-background-image: -webkit-radial-gradient(ellipse farthest-corner at center, rgba(249, 247, 247, 0.53) 0%, rgba(32, 52, 107, 0.9) 100%);
-
+    background-image: -webkit-radial-gradient(ellipse farthest-corner at center, 
+                      rgba(249, 247, 247, 0.53) 0%, rgba(32, 52, 107, 0.9) 100%);
 /* W3C Markup */ 
-background-image: radial-gradient(ellipse farthest-corner at center, rgba(249, 247, 247, 0.53) 0%, rgba(32, 52, 107, 0.9) 100%);
+    background-image: radial-gradient(ellipse farthest-corner at center,
+                      rgba(249, 247, 247, 0.53) 0%, rgba(32, 52, 107, 0.9) 100%);
+}
+.back {
+    position: fixed;
+    top: 0;
+    right: 0;
+    background: #1e5d5a;
+    color: white;
+    border: 0;
+    padding: 10px;
+    font-size: 18px;
+    cursor : pointer;
 }
 main {
     box-sizing: border-box;
