@@ -31,12 +31,12 @@ function goBack() {
                 <div class="picker">
                     <span class="pick">First Color</span>
                     <span id="color1">#f70202</span>
-                    <input type="color" value="#f70202" onchange="firstColorChanged(this.value)">
+                    <input type="color" value="#f70202" onchange="colorChanged('color1', this.value)">
                 </div>
                 <div class="picker">    
                     <span class="pick">Second Color</span>
                     <span id="color2">#fab707</span>
-                    <input type="color" value="#fab707" onchange="secondColorChanged(this.value)">
+                    <input type="color" value="#fab707" onchange="colorChanged('color2', this.value)">
                 </div>
                 <div id="angle" class="gradient_angle">
                     <span class="pick">Angle</span>

@@ -15,8 +15,8 @@
 */
 var props = {
 
-           'col1' : '#f70202',//first color selected
-           'col2' : '#fab707',//second color selected   
+           'color1' : '#f70202',//first color selected
+           'color2' : '#fab707',//second color selected   
            'angle' : 0, // angle of linear gradient
            'type' : 'linear',// tyoe of gradient - linear or radial
            // few vars to reduce typing
@@ -39,18 +39,9 @@ props.setAngle = function( angle ) {
 @param string color - hex code of selected color
 @return col1
 */
-props.setCol1 = function( color ) {
-
-    return this.col1 = color;
-}
-
-/*
-@method setCol2 - sets col2 in props object - second color selected 
-@param string color - hex code of selected color 
-@return col2 
-*/
-props.setCol2 = function( color ) {
-    return this.col2 = color;
+props.setCol = function( colorId, color ) {
+    
+    return this[colorId] = color;
 }
 
 /*
@@ -84,7 +75,7 @@ props.setType = function( type ) {
 @return style
 */
 props.linearGradient = function() {
-        return this.linPrefix['w3'][1] + '(' + this.angle + 'deg, ' + this.col1 + ', ' + this.col2 + ')';  
+        return this.linPrefix['w3'][1] + '(' + this.angle + 'deg, ' + this.color1 + ', ' + this.color2 + ')';  
 }
 
 /*
@@ -92,7 +83,7 @@ props.linearGradient = function() {
 @return style
 */
 props.radialGradient = function() {
-        return this.radPrefix['w3'][1] + '('+ this.col1 + ', ' + this.col2 + ')';  
+        return this.radPrefix['w3'][1] + '('+ this.color1 + ', ' + this.color2 + ')';  
 }
 
 /*
@@ -112,7 +103,7 @@ props.linearCSS = function() {
 
             css +=  value[i][0].toString() + this.br;// comment line
             css +=  this.back + value[i][1].toString() + '(' + this.angle + 'deg, '; 
-            css +=  this.col1 + ', ' + this.col2 + ')' + this.br + this.br;//css
+            css +=  this.color1 + ', ' + this.color2 + ')' + this.br + this.br;//css
             
         }
         return css;
@@ -134,8 +125,8 @@ props.radialCSS = function() {
         for ( i; i < len; i++) {
 
             css +=  value[i][0].toString() + this.br;//comment line
-            css +=  this.back + value[i][1].toString() + '(' + this.angle + 'deg, '; 
-            css +=  this.col1 + ', ' + this.col2 + ')' + this.br + this.br;//css
+            css +=  this.back + value[i][1].toString() + '('; 
+            css +=  this.color1 + ', ' + this.color2 + ')' + this.br + this.br;//css
             
         }
         return css;
@@ -147,7 +138,7 @@ props.radialCSS = function() {
                          and run method to output css properties
 */
 props.display = function() {
-
+    console.log(props.col1+ ' ' +props.col2)
     if ( this.type  === 'linear' ) {
 
         modifyDOMStyle( 'gradient_div', 'background', this.linearGradient() );
@@ -168,7 +159,7 @@ props.display = function() {
 @return modify text
 */
 function modifyDOMHTML( id, value ) {
-
+    console.log(id, value)
     return document.getElementById(id).innerHTML=value;
 
 }
@@ -212,28 +203,16 @@ props.radPrefix = {
                               modify DOM after
 @param string value - hex code of color value                              
 */
-function firstColorChanged( value ) { 
+function colorChanged( colorId, value ) { 
 
-    props.setCol1(value);
+    props.setCol(colorId, value);
 
-    modifyDOMHTML( 'color1', value );
+    modifyDOMHTML( colorId, value );
     
     return props.display();
 }
 
-/*
-@function secondColorChanged - user invoked function to change prop.col2 and 
-                              modify DOM after
-@param string value - hex code of color value                              
-*/
-function secondColorChanged( value ) { 
 
-    props.setCol2(value);
-
-    modifyDOMHTML( 'color2', value );
-    
-    return props.display();
-}
 /*
 @function changeAngle - user invoked function to change prop.angle and 
                          modify DOM after
