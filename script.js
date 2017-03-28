@@ -2,11 +2,11 @@
 /**
  * HTML5 gradient generator
  *
- * @version 1.3.1
+ * @version 1.4.1
  * @license GNU Lesser General Public License, http://www.gnu.org/copyleft/lesser.html
  * @author  David Norminton http://davenorm.me
  * @created 05-01-2017
- * @updated 28-03-2017
+ * @updated 29-03-2017
  * @link    http://davenorm.me
  */
 
@@ -15,13 +15,13 @@
 */
 var props = {
 
-           'color1' : '#f70202',//first color selected
-           'color2' : '#fab707',//second color selected   
-           'angle' : 0, // angle of linear gradient
-           'type' : 'linear',// tyoe of gradient - linear or radial
-           // few vars to reduce typing
-           'back' : 'background : ',//css property
-           'br' : '<br />'// break
+    'color1' : '#f70202',//first color selected
+    'color2' : '#fab707',//second color selected   
+    'angle' : 0, // angle of linear gradient
+    'type' : 'linear',// tyoe of gradient - linear or radial
+    // few vars to reduce typing
+    'back' : 'background : ',//css property
+    'br' : '<br />'// break
            
 };
 
@@ -31,6 +31,7 @@ var props = {
 @return angle 
 */
 props.setAngle = function( angle ) {
+
     return this.angle = angle;
 }
 
@@ -65,6 +66,7 @@ props.setType = function( type ) {
     }
     // set type of gradient
     this.type = type;
+    
     // run props.display() method
     return props.display();
     
@@ -75,7 +77,7 @@ props.setType = function( type ) {
 @return style
 */
 props.linearGradient = function() {
-        return this.linPrefix['w3'][1] + '(' + this.angle + 'deg, ' + this.color1 + ', ' + this.color2 + ')';  
+    return this.linPrefix['w3'][1] + '(' + this.angle + 'deg, ' + this.color1 + ', ' + this.color2 + ')';  
 }
 
 /*
@@ -83,7 +85,7 @@ props.linearGradient = function() {
 @return style
 */
 props.radialGradient = function() {
-        return this.radPrefix['w3'][1] + '('+ this.color1 + ', ' + this.color2 + ')';  
+    return this.radPrefix['w3'][1] + '('+ this.color1 + ', ' + this.color2 + ')';  
 }
 
 /*
@@ -92,21 +94,18 @@ props.radialGradient = function() {
 */
 props.linearCSS = function() {
 
-        // get all values in linPrefix object  
-        var value = Object.values(props.linPrefix),
-            len = Object.values(value).length,// store length of object
-            i = 0, // initailiser
-            css = '';//string to hold output
-          
+    // get all values in linPrefix object  
+    var prefix = props.linPrefix,
+        css = '';//string to hold output          
                     
-        for ( i; i < len; i++) {
+    for ( var i in prefix ) {
 
-            css +=  value[i][0].toString() + this.br;// comment line
-            css +=  this.back + value[i][1].toString() + '(' + this.angle + 'deg, '; 
-            css +=  this.color1 + ', ' + this.color2 + ')' + this.br + this.br;//css
+        css +=  prefix[i][0].toString() + this.br;// comment line
+        css +=  this.back + prefix[i][1].toString() + '(' + this.angle + 'deg, '; 
+        css +=  this.color1 + ', ' + this.color2 + ')' + this.br + this.br;//css
             
-        }
-        return css;
+    }
+    return css;
 
 }
 
@@ -116,20 +115,19 @@ props.linearCSS = function() {
 */
 props.radialCSS = function() {
 
-        // get all values in radPrefix object
-        var value = Object.values(props.radPrefix),
-            len = Object.values(value).length,
-            i = 0,
-            css = '';
-                    
-        for ( i; i < len; i++) {
+    // get all values in radPrefix object
 
-            css +=  value[i][0].toString() + this.br;//comment line
-            css +=  this.back + value[i][1].toString() + '('; 
-            css +=  this.color1 + ', ' + this.color2 + ')' + this.br + this.br;//css
+    var  css = '',
+         prefix = props.radPrefix;
+         
+    for ( var i in props.radPrefix ){ 
+
+        css +=  prefix[i][0].toString() + this.br;//comment line
+        css +=  this.back + prefix[i][1].toString() + '('; 
+        css +=  this.color1 + ', ' + this.color2 + ')' + this.br + this.br;//css
             
-        }
-        return css;
+     }
+     return css;
 
 }
 
@@ -138,7 +136,7 @@ props.radialCSS = function() {
                          and run method to output css properties
 */
 props.display = function() {
-    console.log(props.col1+ ' ' +props.col2)
+
     if ( this.type  === 'linear' ) {
 
         modifyDOMStyle( 'gradient_div', 'background', this.linearGradient() );
@@ -159,7 +157,7 @@ props.display = function() {
 @return modify text
 */
 function modifyDOMHTML( id, value ) {
-    console.log(id, value)
+
     return document.getElementById(id).innerHTML=value;
 
 }
@@ -180,21 +178,21 @@ function modifyDOMStyle( id, property, value ) {
 //  hash of vendor prexies for linear gradient    
 props.linPrefix = {
 
-           'webkit' : [ '/* Webkit chrome */', '-webkit-linear-gradient' ],
-           'moz' : [ '/* Mozilla Firefox */', '-moz-linear-gradient' ],
-           'ms' : [ '/* MS IE10+ */', '-ms-linear-gradient' ],
-           'o' : [ '/* O opera */', '-o-linear-gradient' ],
-           'w3' : [ '/* W3  */', 'linear-gradient' ]
+    'webkit' : [ '/* Webkit chrome */', '-webkit-linear-gradient' ],
+    'moz' : [ '/* Mozilla Firefox */', '-moz-linear-gradient' ],
+    'ms' : [ '/* MS IE10+ */', '-ms-linear-gradient' ],
+    'o' : [ '/* O opera */', '-o-linear-gradient' ],
+    'w3' : [ '/* W3  */', 'linear-gradient' ]
 };  
 
 // hash of vendor prexies for radial gradient   
 props.radPrefix = {
 
-           'webkit' : [ '/* Webkit chrome */', '-webkit-radial-gradient' ],
-           'moz' : [ '/* Mozilla Firefox */', '-moz-radial-gradient' ],
-           'ms' : [ '/* MS IE10+ */', '-ms-radial-gradient' ],
-           'o' : [ '/* O opera */', '-o-radial-gradient' ],
-           'w3' : [ '/* W3  */', 'radial-gradient' ]
+     'webkit' : [ '/* Webkit chrome */', '-webkit-radial-gradient' ],
+     'moz' : [ '/* Mozilla Firefox */', '-moz-radial-gradient' ],
+     'ms' : [ '/* MS IE10+ */', '-ms-radial-gradient' ],
+     'o' : [ '/* O opera */', '-o-radial-gradient' ],
+     'w3' : [ '/* W3  */', 'radial-gradient' ]
            
 };  
 
