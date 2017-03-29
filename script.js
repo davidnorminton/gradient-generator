@@ -51,9 +51,10 @@ props.setAngle = function( angle ) {
 }
 
 /*
-@method setCol1 - sets col1 in props object - first color selected
+@method setCol- sets color value in props object
+@param string colorId - color property in props to change
 @param string color - hex code of selected color
-@return col1
+@return 
 */
 props.setCol = function( colorId, color ) {
     
@@ -190,7 +191,12 @@ function modifyDOMStyle( id, property, value ) {
 }
    
             
-//  hash of vendor prexies for linear gradient    
+/*  
+hash of vendor prexies for linear gradient
+object property value = array
+                        array[0] = css comment
+                        array[1] = css vendor prefix + property   
+*/
 props.linPrefix = {
 
     'webkit' : [ '/* Webkit chrome */', '-webkit-linear-gradient' ],
@@ -200,7 +206,12 @@ props.linPrefix = {
     'w3' : [ '/* W3  */', 'linear-gradient' ]
 };  
 
-// hash of vendor prexies for radial gradient   
+/*  
+hash of vendor prexies for radial gradient
+object property value = array
+                        array[0] = css comment
+                        array[1] = css vendor prefix + property   
+*/
 props.radPrefix = {
 
      'webkit' : [ '/* Webkit chrome */', '-webkit-radial-gradient' ],
@@ -212,8 +223,9 @@ props.radPrefix = {
 };  
 
 /*
-@function firstColorChanged - user invoked function to change prop.col1 and 
-                              modify DOM after
+@function colorChanged - user invoked function to change prop.col and 
+                         modify DOM after
+@param string colorId - property of props to change
 @param string value - hex code of color value                              
 */
 function colorChanged( colorId, value ) { 
@@ -228,7 +240,7 @@ function colorChanged( colorId, value ) {
 
 /*
 @function changeAngle - user invoked function to change prop.angle and 
-                         modify DOM after
+                        modify DOM after
 @param int value - angle value  
 */
 function changeAngle( value ) {
