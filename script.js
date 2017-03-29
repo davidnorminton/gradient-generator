@@ -11,19 +11,34 @@
  */
 
 /*
-@Object props - stores and sets css properties 
+@namespace props - stores and sets css properties 
 */
-var props = {
+var props = {}; 
 
-    'color1' : '#f70202',//first color selected
-    'color2' : '#fab707',//second color selected   
-    'angle' : 0, // angle of linear gradient
-    'type' : 'linear',// tyoe of gradient - linear or radial
-    // few vars to reduce typing
-    'back' : 'background : ',//css property
-    'br' : '<br />'// break
-           
-};
+  //first color selected
+  props.color1 = '#f70202';
+
+  //second color selected  
+  props.color2 = '#fab707'; 
+
+  // angle of linear gradient
+  props.angle = 0; 
+
+  // tyoe of gradient - linear or radial
+  props.type = 'linear';
+
+  // few vars to reduce typing
+  //css property
+  props.BACK = 'background-image';
+
+  // line break
+  props.BR = '<br />';
+
+  // preview box
+  props.preview = 'gradient_div';
+
+  // CSS output box
+  props.output = 'output_css';
 
 /*
 @method setAngle - sets angle of gradient in props object from range slider
@@ -96,13 +111,15 @@ props.linearCSS = function() {
 
     // get all values in linPrefix object  
     var prefix = props.linPrefix,
-        css = '';//string to hold output          
+
+        //string to hold output     
+        css = '';         
                     
     for ( var i in prefix ) {
 
-        css +=  prefix[i][0].toString() + this.br;// comment line
-        css +=  this.back + prefix[i][1].toString() + '(' + this.angle + 'deg, '; 
-        css +=  this.color1 + ', ' + this.color2 + ')' + this.br + this.br;//css
+        css +=  prefix[i][0].toString() + this.BR;// comment line
+        css +=  this.BACK + ' : ' + prefix[i][1].toString() + '(' + this.angle + 'deg, '; 
+        css +=  this.color1 + ', ' + this.color2 + ')' + this.BR + this.BR;//css
             
     }
     return css;
@@ -115,16 +132,14 @@ props.linearCSS = function() {
 */
 props.radialCSS = function() {
 
-    // get all values in radPrefix object
-
     var  css = '',
          prefix = props.radPrefix;
          
     for ( var i in props.radPrefix ){ 
 
-        css +=  prefix[i][0].toString() + this.br;//comment line
-        css +=  this.back + prefix[i][1].toString() + '('; 
-        css +=  this.color1 + ', ' + this.color2 + ')' + this.br + this.br;//css
+        css +=  prefix[i][0].toString() + this.BR;//comment line
+        css +=  this.BACK + ' : ' + prefix[i][1].toString() + '('; 
+        css +=  this.color1 + ', ' + this.color2 + ')' + this.BR + this.BR;//css
             
      }
      return css;
@@ -139,13 +154,13 @@ props.display = function() {
 
     if ( this.type  === 'linear' ) {
 
-        modifyDOMStyle( 'gradient_div', 'background', this.linearGradient() );
-        modifyDOMHTML( 'output_css', this.linearCSS() );    
+        modifyDOMStyle( this.preview, this.BACK, this.linearGradient() );
+        modifyDOMHTML( this.output, this.linearCSS() );    
             
     } else {
 
-        modifyDOMStyle( 'gradient_div', 'background', this.radialGradient() );
-        modifyDOMHTML( 'output_css', this.radialCSS() );    
+        modifyDOMStyle( this.preview, this.BACK, this.radialGradient() );
+        modifyDOMHTML( this.output, this.radialCSS() );    
              
     }    
 }   
