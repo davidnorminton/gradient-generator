@@ -1,4 +1,3 @@
-
 /**
  * HTML5 gradient generator
  *
@@ -13,16 +12,19 @@
 /*
 @namespace props - stores and sets css properties 
 */
-var props = {}; 
+/*jslint browser:true */
+"use strict";
+
+var props = {};
 
   //first color selected
   props.color1 = '#f70202';
 
-  //second color selected  
-  props.color2 = '#fab707'; 
+  //second color selected
+  props.color2 = '#fab707';
 
   // angle of linear gradient
-  props.angle = 0; 
+  props.angle = 0;
 
   // tyoe of gradient - linear or radial
   props.type = 'linear';
@@ -43,23 +45,23 @@ var props = {};
 /*
 @method setAngle - sets angle of gradient in props object from range slider
 @param int angle - angle selected for linear gradient
-@return angle 
+@return angle
 */
 props.setAngle = function( angle ) {
-
-    return this.angle = angle;
-}
+    this.angle = angle;
+    return true;
+};
 
 /*
 @method setCol- sets color value in props object
 @param string colorId - color property in props to change
 @param string color - hex code of selected color
-@return 
+@return
 */
 props.setCol = function( colorId, color ) {
-    
-    return this[colorId] = color;
-}
+    this[colorId] = color;
+    return true;
+};
 
 /*
 @method setType - sets type in props object - type of gradient
@@ -68,41 +70,34 @@ props.setCol = function( colorId, color ) {
 @return props.display()
 */
 props.setType = function( type ) {
-
     if ( type === 'linear' ) {
-
         // display id = angle element
-        modifyDOMStyle('angle', 'display', 'block');  
- 
+        modifyDOMStyle('angle', 'display', 'block');
     } else {
-
         // hide id = angle element
-        modifyDOMStyle('angle', 'display', 'none'); 
-                   
+        modifyDOMStyle('angle', 'display', 'none');
     }
     // set type of gradient
     this.type = type;
-    
     // run props.display() method
     return props.display();
-    
-}
+};
 
 /*
 @method linearGradient - add style to preview box with linear gradient
 @return style
 */
 props.linearGradient = function() {
-    return this.linPrefix['w3'][1] + '(' + this.angle + 'deg, ' + this.color1 + ', ' + this.color2 + ')';  
-}
+    return this.linPrefix.w3[1] + '(' + this.angle + 'deg, ' + this.color1 + ', ' + this.color2 + ')';
+};
 
 /*
 @method radialGradient - add style to preview box with radial gradient
 @return style
 */
 props.radialGradient = function() {
-    return this.radPrefix['w3'][1] + '('+ this.color1 + ', ' + this.color2 + ')';  
-}
+    return this.radPrefix.w3[1] + '('+ this.color1 + ', ' + this.color2 + ')';
+};
 
 /*
 @method linearCSS - output css to display box
@@ -112,20 +107,20 @@ props.linearCSS = function() {
 
     // get all values in linPrefix object  
     var prefix = props.linPrefix,
-
-        //string to hold output     
-        css = '';         
-                    
-    for ( var i in prefix ) {
-
-        css +=  prefix[i][0].toString() + this.BR;// comment line
-        css +=  this.BACK + ' : ' + prefix[i][1].toString() + '(' + this.angle + 'deg, '; 
-        css +=  this.color1 + ', ' + this.color2 + ')' + this.BR + this.BR;//css
-            
+        i,
+        //string to hold output
+        css = '';
+       
+    for ( i in prefix ) {
+        if ( prefix.hasOwnProperty(i) ) {
+            css +=  prefix[i][0].toString() + this.BR;// comment line
+            css +=  this.BACK + ' : ' + prefix[i][1].toString() + '(' + this.angle + 'deg, ';
+            css +=  this.color1 + ', ' + this.color2 + ')' + this.BR + this.BR;//css
+        }
     }
     return css;
 
-}
+};
 
 /*
 @method radialCSS - output css to display box
@@ -133,19 +128,19 @@ props.linearCSS = function() {
 */
 props.radialCSS = function() {
 
-    var  css = '',
+    var  css = '', i,
          prefix = props.radPrefix;
          
-    for ( var i in props.radPrefix ){ 
-
-        css +=  prefix[i][0].toString() + this.BR;//comment line
-        css +=  this.BACK + ' : ' + prefix[i][1].toString() + '('; 
-        css +=  this.color1 + ', ' + this.color2 + ')' + this.BR + this.BR;//css
-            
+    for ( i in props.prefix ){
+        if ( prefix.hasOwnProperty(i) ) {
+            css +=  prefix[i][0].toString() + this.BR;//comment line
+            css +=  this.BACK + ' : ' + prefix[i][1].toString() + '(';
+            css +=  this.color1 + ', ' + this.color2 + ')' + this.BR + this.BR;//css
+        }
      }
      return css;
 
-}
+};
 
 /*
 @method prop.display() - check for gradient type then change style on preview box
@@ -156,15 +151,15 @@ props.display = function() {
     if ( this.type  === 'linear' ) {
 
         modifyDOMStyle( this.preview, this.BACK, this.linearGradient() );
-        modifyDOMHTML( this.output, this.linearCSS() );    
-            
+        modifyDOMHTML( this.output, this.linearCSS() );
+
     } else {
 
         modifyDOMStyle( this.preview, this.BACK, this.radialGradient() );
-        modifyDOMHTML( this.output, this.radialCSS() );    
-             
-    }    
-}   
+        modifyDOMHTML( this.output, this.radialCSS() );
+
+    }
+};
 
 /*
 @function modifyDOMHTML - modify text on element by id
@@ -174,8 +169,8 @@ props.display = function() {
 */
 function modifyDOMHTML( id, value ) {
 
-    return document.getElementById(id).innerHTML=value;
-
+    document.getElementById(id).innerHTML=value;
+    return true;
 }
 
 /*
@@ -186,11 +181,11 @@ function modifyDOMHTML( id, value ) {
 */
 function modifyDOMStyle( id, property, value ) {
 
-    return document.getElementById(id).style[property]=value;
-
+    document.getElementById(id).style[property]=value;
+    return true;
 }
-   
-            
+
+
 /*  
 hash of vendor prexies for linear gradient
 object property value = array
@@ -210,7 +205,7 @@ props.linPrefix = {
 hash of vendor prexies for radial gradient
 object property value = array
                         array[0] = css comment
-                        array[1] = css vendor prefix + property   
+                        array[1] = css vendor prefix + property
 */
 props.radPrefix = {
 
@@ -226,26 +221,26 @@ props.radPrefix = {
 @function colorChanged - user invoked function to change prop.col and 
                          modify DOM after
 @param string colorId - property of props to change
-@param string value - hex code of color value                              
+@param string value - hex code of color value
 */
-function colorChanged( colorId, value ) { 
+props.colorChanged = function( colorId, value ) {
 
     props.setCol(colorId, value);
 
     modifyDOMHTML( colorId, value );
-    
+
     return props.display();
-}
+};
 
 
 /*
 @function changeAngle - user invoked function to change prop.angle and 
                         modify DOM after
-@param int value - angle value  
+@param int value - angle value
 */
-function changeAngle( value ) {
+props.changeAngle = function( value ) {
 
     props.setAngle( value );
     
     return props.display();
-}     
+};

@@ -7,6 +7,35 @@
     <script src="script.js"></script>
 </head>
 <body>
+
+<script>
+
+function supports() {
+    var element = document.createElement('div');
+        element.setAttribute('id', 'support'); // Just grab an "invisible" element.
+
+    var prefix = [ '-ms-', '-o-', '-moz-', '-webkit-', '' ];
+    var supports = '';
+    
+    for (var i in prefix) {
+    
+        element.style.background = prefix[i]+'linear-gradient(black, white)';
+        
+        var test = element.style.background.indexOf(prefix[i]+'linear-gradient') > -1; // Did it accept?
+        if( test ) {
+            if ( prefix[i].length === 0 ) {
+                supports = true;
+            }
+            element.innerHTML='supports ' + prefix[i];
+            supports = true;
+        }
+    }
+    return supports;
+}
+console.log(supports());
+// console.log(testCss('backgroundImage', 'background-image:linear-gradient(black,white)'));
+
+</script>
     <main>
     <a href="https://github.com/davidnorminton/gradient-generator">
         <img style="position: absolute; top: 0; left: 0; border: 0;" 
@@ -36,17 +65,17 @@ function goBack() {
                 <div class="picker">
                     <span class="pick">First Color</span>
                     <span id="color1">#f70202</span>
-                    <input type="color" value="#f70202" onchange="colorChanged('color1', this.value)">
+                    <input class="pick_color" type="color" value="#f70202" onchange="props.colorChanged('color1', this.value)">
                 </div>
                 <div class="picker">    
                     <span class="pick">Second Color</span>
                     <span id="color2">#fab707</span>
-                    <input type="color" value="#fab707" onchange="colorChanged('color2', this.value)">
+                    <input type="color" value="#fab707" onchange="props.colorChanged('color2', this.value)">
                 </div>
                 <div id="angle" class="gradient_angle">
                     <span class="pick">Angle</span>
                     <input type="range" value="0" min="-180" max="180" 
-                           step="1" onchange="changeAngle(this.value)">
+                           step="1" onchange="props.changeAngle(this.value)">
             </div>    
         </section>    
         <section class="right">
