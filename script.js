@@ -106,12 +106,11 @@ props.radialGradient = function() {
 props.linearCSS = function() {
 
     // get all values in linPrefix object  
-    var prefix = props.linPrefix,
-        i,
-        //string to hold output
-        css = '';
+    var prefix = Object.values(props.linPrefix),
+    //string to hold output
+        css = '', i = 0, l = prefix.length;
        
-    for ( i in prefix ) {
+    for (  ; i < l;  i++ ) {
         if ( prefix.hasOwnProperty(i) ) {
             css +=  prefix[i][0].toString() + this.BR;// comment line
             css +=  this.BACK + ' : ' + prefix[i][1].toString() + '(' + this.angle + 'deg, ';
@@ -128,10 +127,10 @@ props.linearCSS = function() {
 */
 props.radialCSS = function() {
 
-    var  css = '', i,
-         prefix = props.radPrefix;
-         
-    for ( i in props.prefix ){
+    var prefix = Object.values(props.radPrefix),
+        css = '', i = 0, l = prefix.length;
+    
+    for ( ; i < l; i++ ){
         if ( prefix.hasOwnProperty(i) ) {
             css +=  prefix[i][0].toString() + this.BR;//comment line
             css +=  this.BACK + ' : ' + prefix[i][1].toString() + '(';
