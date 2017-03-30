@@ -160,31 +160,6 @@ props.display = function() {
     }
 };
 
-/*
-@function modifyDOMHTML - modify text on element by id
-@param string id - id of element
-@param string value - innerHTML=
-@return modify text
-*/
-function modifyDOMHTML( id, value ) {
-
-    document.getElementById(id).innerHTML=value;
-    return true;
-}
-
-/*
-@function modifyDOMSTYLE - modify preview box
-@param string id - id of element
-@param string property - css property to alter
-@param string value - value of property 
-*/
-function modifyDOMStyle( id, property, value ) {
-
-    document.getElementById(id).style[property]=value;
-    return true;
-}
-
-
 /*  
 hash of vendor prexies for linear gradient
 object property value = array
@@ -243,3 +218,27 @@ props.changeAngle = function( value ) {
     
     return props.display();
 };
+
+/*
+@function modifyDOMHTML - modify text on element by id
+@param string id - id of element
+@param string value - innerHTML=
+@return modify text
+*/
+function modifyDOMHTML( id, value ) {
+
+    document.getElementById(id).innerHTML=value;
+    return true;
+}
+
+/*
+@function modifyDOMSTYLE - modify preview box
+@param string id - id of element
+@param string property - css property to alter
+@param string value - value of property 
+*/
+function modifyDOMStyle( id, property, value ) {
+
+    document.getElementById(id).style[property]=value;
+    return true;
+}
