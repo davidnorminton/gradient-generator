@@ -4,43 +4,14 @@
     <title>CSS Linear gradient generator</title>
     <meta description="author" content="David Norminton">
     <link rel="stylesheet" href="style.css">
-    <script src="script.js"></script>
+
 </head>
 <body>
-
-<script>
-
-function supports() {
-    var element = document.createElement('div');
-        element.setAttribute('id', 'support'); // Just grab an "invisible" element.
-
-    var prefix = [ '-ms-', '-o-', '-moz-', '-webkit-', '' ];
-    var supports = '';
-    
-    for (var i in prefix) {
-    
-        element.style.background = prefix[i]+'linear-gradient(black, white)';
-        
-        var test = element.style.background.indexOf(prefix[i]+'linear-gradient') > -1; // Did it accept?
-        if( test ) {
-            if ( prefix[i].length === 0 ) {
-                supports = true;
-            }
-            element.innerHTML='supports ' + prefix[i];
-            supports = true;
-        }
-    }
-    return supports;
-}
-console.log(supports());
-// console.log(testCss('backgroundImage', 'background-image:linear-gradient(black,white)'));
-
-</script>
     <main>
     <a href="https://github.com/davidnorminton/gradient-generator">
         <img style="position: absolute; top: 0; left: 0; border: 0;" 
-        src="https://camo.githubusercontent.com/567c3a48d796e2fc06ea80409cc9dd82bf714434/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f6c6566745f6461726b626c75655f3132313632312e706e67" alt="Fork me on GitHub" 
-        data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_left_darkblue_121621.png">
+             alt="Fork me on GitHub" 
+             src="https://s3.amazonaws.com/github/ribbons/forkme_left_darkblue_121621.png">
    </a>
 <button class="back" type="button" onclick="goBack()">BACK TO ARTICLE</button>
 
@@ -49,37 +20,37 @@ function goBack() {
     window.history.back();
 }
 </script>    
-        <section class="left">
-                <!-- div with gradient effect -->
+    <section class="left">
+        <div class="container"> 
+            <div class="label">CONFIGURE GRADIENT</div>            
+            <!-- our two color pickers -->
+                <h3>Select gradient type</h3>
+                <label>Linear </label>
+                <input type="radio" name="gradient" onclick="props.setType(this.value)" value="linear" checked>
+                <label>Radial</label>
+                <input type="radio" name="gradient" onclick="props.setType(this.value)" value="radial">
+                <div class="color-select">
+                    <div class="picker">
+                        <span class="pick">First Color</span>
+                        <span id="color1">#f70202</span>
+                        <input class="color" data-var="color1" type="color" value="#f70202" />
+                    </div>
+                    <div class="picker">    
+                        <span class="pick">Second Color</span>
+                        <span id="color2">#fab707</span>
+                        <input class="color" data-var='color2' type="color" value="#fab707" />
+                    </div>
+                </div>    
+                <div id="angle" class="gradient_angle">
+                    <span class="pick">Angle</span>
+                    <input type="range" id="set_angle" value="0" min="-180" max="180" step="1">
+                </div>    
+    </section>    
+    <section class="right">
+        <!-- div with gradient effect -->
         <div class="container">
             <div id="gradient_div"></div>
         </div>
-            <div class="container"> 
-                <div class="label">CONFIGURE GRADIENT</div>            
-                <!-- our two color pickers -->
-                    <h3>Select gradient type</h3>
-                    <label>Linear </label>
-                    <input type="radio" name="gradient" onclick="props.setType(this.value)" value="linear" checked>
-                    <label>Radial</label>
-                    <input type="radio" name="gradient" onclick="props.setType(this.value)" value="radial">
-                <div class="picker">
-                    <span class="pick">First Color</span>
-                    <span id="color1">#f70202</span>
-                    <input class="pick_color" type="color" value="#f70202" onchange="props.colorChanged('color1', this.value)">
-                </div>
-                <div class="picker">    
-                    <span class="pick">Second Color</span>
-                    <span id="color2">#fab707</span>
-                    <input type="color" value="#fab707" onchange="props.colorChanged('color2', this.value)">
-                </div>
-                <div id="angle" class="gradient_angle">
-                    <span class="pick">Angle</span>
-                    <input type="range" value="0" min="-180" max="180" 
-                           step="1" onchange="props.changeAngle(this.value)">
-            </div>    
-        </section>    
-        <section class="right">
-
         <div class="container">  
             <div id="output_css">
                 /* webkit chrome */<br />
@@ -94,7 +65,8 @@ function goBack() {
                 background:          linear-gradient(0deg, #f70202, #fab707);<br /><br />                       
             </div>
         </div>
-        </section>
+    </section>
     </main>
+<script src="script.js"></script>
 </body> 
 </html>   

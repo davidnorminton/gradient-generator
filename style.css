@@ -21,6 +21,18 @@ html {
     background-image: radial-gradient(ellipse farthest-corner at center,
                       rgba(249, 247, 247, 0.53) 0%, rgba(32, 52, 107, 0.9) 100%);
 }
+#error {
+    position: fixed;
+    top: 8px;
+    left: calc(50% - 190px);
+    padding: 10px;
+    width: 380px;
+    box-sizing: border-box;
+    background: #ea7f7f;
+    border: 1px solid #883131;
+    color: black;
+    font-weight: bold;
+}
 .back {
     position: fixed;
     top: 0;
@@ -36,7 +48,7 @@ main {
     box-sizing: border-box;
     width : 800px;
     height : 100%;
-    padding : 100px 0 0 0;
+    padding : 50px 0 0 0;
     margin : auto;
 }
 .left {
@@ -46,10 +58,14 @@ main {
     box-sizing : boder-box;
 }
 .right {
-    float : right;
-    width : 440px;
-    margin-left : 10px;
-    box-sizing : boder-box;
+    float: right;
+    width: 440px;
+    margin-left: 10px;
+    box-sizing: border-box;
+    border: 2px solid #736969;
+    padding: 10px;
+    background: rgba(158, 155, 155, 0.65);
+    border-radius: 5px;
 }
 .container{
     position: relative;
@@ -63,6 +79,7 @@ main {
     font-size: 30px;
     color: rgba(45, 42, 42, 0.4);
     text-shadow: 0 1px 1px rgba(142, 56, 56, 0.5);
+    margin-top: 0;
 }
 #gradient_div {
     width: 100%;
@@ -71,6 +88,7 @@ main {
     background: linear-gradient(#f70202, #fab707);
     box-shadow: 0 1px 1px 0 rgb(158, 164, 181), inset 0 1px 5px rgba(162, 171, 193, 0.68);
     border: 2px solid rgba(119, 127, 147, 0.82);
+    margin-bottom : 10px;
     
 }
 input[type="color"] {
