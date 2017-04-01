@@ -12,7 +12,7 @@
         <img style="position: absolute; top: 0; left: 0; border: 0;" 
              alt="Fork me on GitHub" 
              src="https://s3.amazonaws.com/github/ribbons/forkme_left_darkblue_121621.png">
-   </a>
+    </a>
 <button class="back" type="button" onclick="goBack()">BACK TO ARTICLE</button>
 
 <script>
@@ -29,18 +29,31 @@ function goBack() {
                 <input type="radio" name="gradient" onclick="props.setType(this.value)" value="linear" checked>
                 <label>Radial</label>
                 <input type="radio" name="gradient" onclick="props.setType(this.value)" value="radial">
-                <div class="color-select">
-                    <div class="picker">
-                        <span class="pick">First Color</span>
-                        <span id="color1">#f70202</span>
-                        <input class="color" data-var="color1" type="color" value="#f70202" />
-                    </div>
-                    <div class="picker">    
-                        <span class="pick">Second Color</span>
-                        <span id="color2">#fab707</span>
-                        <input class="color" data-var='color2' type="color" value="#fab707" />
-                    </div>
-                </div>    
+                <ul id="color-select">
+                    <li class="picker">
+                        <span class="pick">Start Color</span>
+                        <div class="stop-box">
+                            <input type="number" min="0" max="100" step="1" value="0" class="stop" data-stop-var="color1" />
+                            <span class="percent">%</span>
+                        </div>
+                        <div class="color-box">
+                            <span id="color1">#f70202</span>
+                            <input class="color" data-var="color1" type="color" value="#f70202" />
+                        </div>
+                    </li>
+                    <li class="picker">    
+                        <span class="pick">End Color</span>
+                        <div class="stop-box">
+                            <input type="number" min="0" max="100" step="1" value="100" class="stop" data-stop-var="color2" />
+                            <span class="percent">%</span>
+                        </div>
+                        <div class="color-box">                        
+                            <span id="color2">#fab707</span>
+                            <input class="color" data-var='color2' type="color" value="#fab707" />
+                        </div>
+                    </li>
+                </ul>    
+                <div id="add_color">Add Color</div>
                 <div id="angle" class="gradient_angle">
                     <span class="pick">Angle</span>
                     <input type="range" id="set_angle" value="0" min="-180" max="180" step="1">
