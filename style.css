@@ -32,6 +32,7 @@ html {
     border: 1px solid #883131;
     color: black;
     font-weight: bold;
+    font-size : 11px;
 }
 .back {
     position: fixed;
@@ -100,6 +101,7 @@ input[type="color"] {
     position: relative;
     top: 12px;
     margin-top: -15px;
+    background: #1d95b3;
 }
 input[type="color"]::-webkit-color-swatch-wrapper {
 	padding: 0;
@@ -132,12 +134,27 @@ input[type="color"]::-webkit-color-swatch {
     background: #1d95b3;
     overflow: hidden;
 }
+#add_color {
+    display : inline-block;
+    background: #1d95b3;
+    padding: 10px 20px;
+    border: 1px solid #165261;
+    border-radius: 5px;
+    font-weight: bold;
+    font-size: 20px;
+    cursor : pointer;    
+    transition : all ease .5s;
+}
+#add_color:hover {
+    background: #266c7d;
+}
 .stop {
     background: white;
     padding: 4px 5px;
     letter-spacing: 1px;
     font-size: 22px;
     margin: 0;
+    width : 90px;
 }
 .percent {
     font-size: 27px;
@@ -157,7 +174,7 @@ input[type="color"]::-webkit-color-swatch {
 }
 #output_css {
     width: 100%;
-    height: 350px;
+    min-height: 350px;
     border: 2px solid rgba(0, 0, 0, 0.2);
     border-radius: 7px;
     box-sizing: border-box;

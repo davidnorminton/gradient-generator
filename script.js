@@ -8,24 +8,18 @@
  * @updated 29-03-2017
  * @link    http://davenorm.me
  */
-/*jslint browser:true */
-
 
 /*
 @object supports - detect if browser supports gradients and if it does which
                    if any vendor prefix to use.
 */
 var supports = {};
-
-// store vendor prefix detected
-supports.prefix = '';
-
 /*
-@method bool - determine if gradients are avaialble and which vendor prefix
-             - sets prefix if found
-@return bool true or false
+@method prefix - determine if gradients are avaialble and which vendor prefix
+sets prefix if found
+@return prefix on true or false
 */  
-supports.bool = function() {
+supports.prefix = function() {
 
     // create an invisible elemenet for testing
     var el = document.createElement('div');
@@ -34,18 +28,8 @@ supports.bool = function() {
     el.setAttribute('id', 'support');
     
     // supports or not
-    var bool = false,
-    
-        // array of possible vendor prefixes
-        vendors = ['-ms-', '-o-', '-moz-', '-webkit-'],
-        
-        // css property to try
-        property = 'linear-gradient',
-        
-        // initialiser
-        i = 0, 
-        
-        l = vendors.length;
+    var bool = false, vendors = ['-ms-', '-o-', '-moz-', '-webkit-'],
+        property = 'linear-gradient', i = 0,  prefix = '', l = vendors.length;
 
     for ( ; i < l; i++ ) {
     
@@ -56,13 +40,13 @@ supports.bool = function() {
 
             if( bool ) {
 
-                this.prefix = ( i === 4 ) ? 'w3' : vendors[i];
+                prefix = ( i === 4 ) ? 'w3' : vendors[i];
 
             }
         }    
     }
 
-    return bool;
+    return prefix;
 };
 
 /*
@@ -110,47 +94,36 @@ var props = {
     
     // possible linear gradient directions ( used instead of angle )
     linDir : ['top left', 'top', 'top right', 'left',
-              'right', 'bottom right', 'bottom', 'bottom left']          
-};
-/*
-@method supports - detect if supports object is available
-@return bool 
-  */
-props.supports = function() {
-    return ( typeof supports === 'object' );   
-};
-  
-/*
-@method supported - Detect if gradients supported by browser
-@return bool
-*/
-props.supported = function() {
-    return ( props.supports() ) ? supports.bool() : false;  
-};
-  
-/*
-@method prefix - detected prefix to use on gradient preview box
-@return if true set prefix else return false
-*/
-props.detectPrefix = function() {
+              'right', 'bottom right', 'bottom', 'bottom left'],   
+ 
+    //hash of vendor prexies for linear gradient
+    linPrefix : {
+        'w3' : [ '/* W3  */', 'linear-gradient' ],
+        '-webkit-' : [ '/* Webkit chrome */', '-webkit-linear-gradient' ],
+        '-moz-' : [ '/* Mozilla Firefox */', '-moz-linear-gradient' ],
+        '-ms-' : [ '/* MS IE10+ */', '-ms-linear-gradient' ],
+        '-o-' : [ '/* O opera */', '-o-linear-gradient' ]
+    },  
 
-    if ( supports.prefix ) {
-    
-        props.prefix = supports.prefix;
-        
-    } 
-    
-    return ( props.supported() ) ? supports.prefix : false;
-    
+    // hash of vendor prexies for radial gradient
+    radPrefix : {
+         'w3' : [ '/* W3  */', 'radial-gradient' ],
+         '-webkit-' : [ '/* Webkit chrome */', '-webkit-radial-gradient' ],
+         '-moz-' : [ '/* Mozilla Firefox */', '-moz-radial-gradient' ],
+         '-ms-' : [ '/* MS IE10+ */', '-ms-radial-gradient' ],
+         '-o-' : [ '/* O opera */', '-o-radial-gradient' ]           
+    }                     
 };
 
+  
 /*
 @method runBrowserCheck - detect if the browser supports gradients
 @return the vendor prefix to use if true or return false
 */
 props.runBrowserCheck = function() {
-    return ( props.supports() && props.supported() ) ? props.detectPrefix() : false;
-}
+    (supports.prefix() ) ? this.prefix = supports.prefix() : false;   
+    return supports.prefix;
+};
 
 /*
 @method setAngle - sets angle of gradient in props object from range slider
@@ -191,40 +164,33 @@ props.setStop = function( colorId, stop ) {
 */
 props.setType = function( type ) {
 
-    if ( type === 'linear' ) {
-    
-        // display id = angle element
-        this.modifyDOMStyle('angle', 'display', 'block');
-        
-    } else {
-    
-        // hide id = angle element
-        this.modifyDOMStyle('angle', 'display', 'none');
-        
-    }
-    // set type of gradienti
+    ( type === 'linear' ) ? this.modifyDOMStyle('angle', 'display', 'block')
+                          : this.modifyDOMStyle('angle', 'display', 'none');        
     this.type = type;
     
     // run props.display() method
-    return props.display();
-    
+    return props.display();    
 };
 
 /*
-@method linearGradient - add style to preview box with linear gradient
+@method gradient - add style to preview box with gradient
+@param type - type of gradient
 @return style
 */
-props.linearGradient = function() {
+props.gradient = function( type ) {
 
-   var colors = Object.keys(this.colors);
-   var colorsLength = colors.length;
-   var output = this.linPrefix[this.prefix][1] + '(' + this.angle + 'deg, ';
+   var keys = Object.keys(this.colors);
+   var keysLength = keys.length;
+   var prefix = ( type === 'linear') ? this.linPrefix[this.prefix][1] 
+                                     : this.radPrefix[this.prefix][1];
+   var output = prefix + '(';
+       output += (type === 'linear') ? this.angle + 'deg, ' : ' ';
   
-   for( i in colors ){
+   for( i in keys ){
         
-        output += this.colors[colors[i]].color + ' ';
-        output += this.colors[colors[i]].stop + '%';
-        output += ( parseInt(i) + 1  != colorsLength ) ? ', ' : ')';
+        output += this.colors[keys[i]].color + ' ';
+        output += this.colors[keys[i]].stop + '%';
+        output += ( parseInt(i) + 1  != keysLength ) ? ', ' : ')';
         
    }
 
@@ -233,37 +199,17 @@ props.linearGradient = function() {
 };
 
 /*
-@method radialGradient - add style to preview box with radial gradient
-@return style
-*/
-props.radialGradient = function() {
-
-   var colors = Object.keys(this.colors);
-   var colorsLength = colors.length;
-   var output = this.radPrefix[this.prefix][1] + '(';
-  
-   for( i in colors ){
-        
-        output += this.colors[colors[i]].color + ' ';
-        output += this.colors[colors[i]].stop + '%';
-        output += ( parseInt(i) + 1  != colorsLength ) ? ', ' : ')';
-        
-   }
-
-   return output;
-        
-};
-
-/*
-@method linearCSS - output css to display box
+@method css - output css to display box
+@param string gradient - type of gradient
 @return string - css
 */
-props.linearCSS = function() {
+props.css = function( type ) {
 
     // get all values in linPrefix object  
-    var prefix = Object.values(props.linPrefix),
-        colors = Object.keys(this.colors),
-        colorsLength = colors.length,    
+    var prefix = ( type === 'linear' ) ? Object.values(props.linPrefix) 
+                                       : Object.values(props.radPrefix),
+        keys = Object.keys(this.colors),
+        keysLength = keys.length,    
         css = '', 
         l = prefix.length;  
              
@@ -272,13 +218,14 @@ props.linearCSS = function() {
         if ( prefix.hasOwnProperty(l) ) {
         
             css += prefix[l][0].toString() + this.BR;
-            css += this.BACK + ' : ' + prefix[l][1].toString() + '(' + this.angle + 'deg, ';
+            css += this.BACK + ' : ' + prefix[l][1].toString() + '(';
+            css += ( type === 'linear') ? this.angle + 'deg, ' : '';
   
-            for( i in colors ){
+            for( i in keys ){
         
-                css += this.colors[colors[i]].color + ' ';
-                css += this.colors[colors[i]].stop + '%';
-                css += ( parseInt(i) + 1  != colorsLength ) ? ', ' : ');';
+                css += this.colors[keys[i]].color + ' ';
+                css += this.colors[keys[i]].stop + '%';
+                css += ( parseInt(i) + 1  != keysLength ) ? ', ' : ');';
         
             } 
              css += this.BR + this.BR;    
@@ -289,77 +236,18 @@ props.linearCSS = function() {
     return css;
 };
 
-/*
-@method radialCSS - output css to display box
-@return string - css
-*/
-props.radialCSS = function() {
-
-    var prefix = Object.values(props.radPrefix),
-        css = '', l = prefix.length;   
-        
-    while ( l-- ){
-    
-        if ( prefix.hasOwnProperty(l) ) {
-        
-            css +=  prefix[l][0].toString() + this.BR;//comment line
-            css +=  this.BACK + ' : ' + prefix[l][1].toString() + '(';
-            css +=  this.colors.color1.color + ' ' + this.colors.color1.stop + '%, ';
-            css +=  this.colors.color2.color + ' ' + this.colors.color2.stop;
-            css +=  '%);' + this.BR + this.BR;//css
-            
-        }
-     }
-     
-     return css;
-};
 
 /*
 @method prop.display() - check for gradient type then change style on preview box
                          and run method to output css properties
 */
 props.display = function() {
-
-    if ( this.type  === 'linear' ) {
-    
-        this.modifyDOMStyle( this.preview, this.BACK, this.linearGradient() );
-        this.modifyDOMHTML( this.output, this.linearCSS() );
-
-    } else {
-    
-        this.modifyDOMStyle( this.preview, this.BACK, this.radialGradient() );
-        this.modifyDOMHTML( this.output, this.radialCSS() );
-
-    }
-};
-
-/*  
-hash of vendor prexies for linear gradient
-object property value = array
-                        array[0] = css comment
-                        array[1] = css vendor prefix + property   
-*/
-props.linPrefix = {
-    'w3' : [ '/* W3  */', 'linear-gradient' ],
-    '-webkit-' : [ '/* Webkit chrome */', '-webkit-linear-gradient' ],
-    '-moz-' : [ '/* Mozilla Firefox */', '-moz-linear-gradient' ],
-    '-ms-' : [ '/* MS IE10+ */', '-ms-linear-gradient' ],
-    '-o-' : [ '/* O opera */', '-o-linear-gradient' ]
-};  
-
-/*  
-hash of vendor prexies for radial gradient
-object property value = array
-                        array[0] = css comment
-                        array[1] = css vendor prefix + property
-*/
-props.radPrefix = {
-     'w3' : [ '/* W3  */', 'radial-gradient' ],
-     '-webkit-' : [ '/* Webkit chrome */', '-webkit-radial-gradient' ],
-     '-moz-' : [ '/* Mozilla Firefox */', '-moz-radial-gradient' ],
-     '-ms-' : [ '/* MS IE10+ */', '-ms-radial-gradient' ],
-     '-o-' : [ '/* O opera */', '-o-radial-gradient' ]           
-};  
+    var g, CSS;
+    (this.type === 'linear') ? ( g = this.gradient('linear'), CSS = this.css('linear') )
+                             : ( g = this.gradient('radial'), CSS = this.css('radial') );
+    this.modifyDOMStyle( this.preview, this.BACK, g );
+    this.modifyDOMHTML( this.output, CSS );
+}; 
 
 /*
 @function colorChanged - user invoked function to change prop.col and 
@@ -375,7 +263,6 @@ props.colorChanged = function( colorId, value ) {
     return props.display();
     
 };
-
 
 /*
 @function changeAngle - user invoked function to change prop.angle and 
@@ -435,20 +322,17 @@ Actions to initiate when page load
     // bind all eventListeners to control elements
     bindEvents(); 
 })();
+
 /*
 @function addElement - adds a new color picker to the DOM, sets and values, and
      attributes which need changing.
      Then ensures these elements are bound to event listeners
-
+     -first create a clone of the first color picker
+     -add this to the DOM
+     -then change all element attributes which are required for manipulating 
+     -the gradient of the preview box and ouput css
 */
 function addElement(){
-
-    /*
-    first create a clone of the first color picker
-    add this to the DOM
-    then change all element attributes which are required for manipulating 
-    the gradient of the preview box and ouput css
-    */
     
     // color pickers are in alist
     var ul = document.getElementById('color-select');
